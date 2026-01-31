@@ -36,4 +36,4 @@ This project uses **Doodba**, a production-ready Docker scaffolding for Odoo dev
 - [Doodba QA docs](https://github.com/Tecnativa/doodba-qa)
 
 ---
-**Maintained by:** [Pedro Luque](https://github.com/LUQU3)
+**Maintained by:** [Pedro Luque](https://github.com/LUQU33)
