@@ -4,7 +4,7 @@
 !/odoo/custom/src/private/
 
 # Ignore docker-compose.yml and overrides by default, to allow easy defaults per clone
-/docker-compose.yml
+#/docker-compose.yml
 /docker-compose.override.yml
 
 # Compiled formats, cache, temporary files, git garbage
@@ -29,3 +29,6 @@
 
 # Project-specific docker configurations
 /.docker/
+
+# SEGURIDAD: Nunca subir contraseñas
+.env
