@@ -1,21 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="estate_property_1" model="estate.property">
-        <field name="name">Casa Modelo: Villa Sol</field>
-        <field name="expected_price">150000</field>
-        <field name="bedrooms">3</field>
-        <field
-            name="description"
-        >Una hermosa villa para empezar a probar el sistema.</field>
-        <field name="postcode">10001</field>
-        <field name="date_availability">2026-03-01</field>
-    </record>
 
-    <record id="estate_property_2" model="estate.property">
-        <field name="name">Departamento Centro (Solo Lectura)</field>
-        <field name="expected_price">85000</field>
-        <field name="bedrooms">1</field>
-        <field name="garage" eval="True" /> <field name="garden" eval="False" />
-    </record>
+    <data noupdate="1">
+        <record id="type_residential" model="estate.property.type">
+            <field name="name">Residencial</field>
+        </record>
 
+        <record id="type_commercial" model="estate.property.type">
+            <field name="name">Comercial</field>
+        </record>
+
+        <record id="tag_renovated" model="estate.property.tag">
+            <field name="name">Renovado</field>
+        </record>
+
+        <record id="tag_cozy" model="estate.property.tag">
+            <field name="name">Acogedor</field>
+        </record>
+    </data>
+
+
+    <data noupdate="0">
+
+        <record id="estate_property_1" model="estate.property">
+            <field name="name">Mansión en las Colinas</field>
+            <field name="expected_price">350000</field>
+            <field name="bedrooms">5</field>
+            <field name="living_area">250</field>
+            <field
+                name="description"
+            >Ideal para familias grandes. Vista panorámica.</field>
+            <field name="postcode">90210</field>
+            <field name="date_availability">2026-06-01</field>
+
+            <field name="property_type_id" ref="type_residential" />
+
+            <field name="buyer_id" ref="base.res_partner_12" /> <field
+                name="salesperson_id"
+                ref="base.user_admin"
+            /> <field
+                name="tag_ids"
+                eval="[(6, 0, [ref('tag_renovated'), ref('tag_cozy')])]"
+            />
+        </record>
+
+        <record id="estate_property_2" model="estate.property">
+            <field name="name">Oficinas Centrales</field>
+            <field name="expected_price">120000</field>
+            <field name="bedrooms">0</field>
+            <field name="property_type_id" ref="type_commercial" />
+            <field name="garden" eval="False" />
+            <field name="garage" eval="True" />
+            <field name="tag_ids" eval="[(4, ref('tag_renovated'))]" />
+        </record>
+
+    </data>
 </odoo>
