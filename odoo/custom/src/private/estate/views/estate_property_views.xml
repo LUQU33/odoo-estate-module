@@ -1,10 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <record id="estate_property_view_search" model="ir.ui.view">
+        <field name="name">estate.property.search</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Propiedades">
+                <field name="name" string="Título" />
+                <field name="postcode" />
+                <field name="expected_price" />
+                <field name="bedrooms" />
+                <field
+                    name="living_area"
+                    filter_domain="[('living_area', '>=', self)]"
+                />
+
+                <separator />
+                <filter
+                    string="Con Jardín"
+                    name="filter_garden"
+                    domain="[('garden', '=', True)]"
+                />
+                <filter
+                    string="Con Garage"
+                    name="filter_garage"
+                    domain="
+                [('garage', '=', True)]"
+                />
+                <filter
+                    string="Baratas (menor a $100k)"
+                    name="low_price"
+                    domain="[('expected_price', '&lt;', 100000)]"
+                />
+
+                <group expand="1" string="Agrupar por">
+                    <filter
+                        string="Código Postal"
+                        name="group_by_postcode"
+                        context="{'group_by':'postcode'}"
+                    />
+                    <filter
+                        string="Orientación del Jardín"
+                        name="group_by_orientation"
+                        context="{'group_by':'garden_orientation'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
 
     <record id="estate_property_action" model="ir.actions.act_window">
         <field name="name">Real Estate Properties</field>
         <field name="res_model">estate.property</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_filter_garden': 1}</field>
     </record>
 
     <menuitem id="estate_menu_root" name="Real Estate">
