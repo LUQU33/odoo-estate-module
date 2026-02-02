@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="estate_property_1" model="estate.property">
+        <field name="name">Casa Modelo: Villa Sol</field>
+        <field name="expected_price">150000</field>
+        <field name="bedrooms">3</field>
+        <field
+            name="description"
+        >Una hermosa villa para empezar a probar el sistema.</field>
+        <field name="postcode">10001</field>
+        <field name="date_availability">2026-03-01</field>
+    </record>
+
+    <record id="estate_property_2" model="estate.property">
+        <field name="name">Departamento Centro (Solo Lectura)</field>
+        <field name="expected_price">85000</field>
+        <field name="bedrooms">1</field>
+        <field name="garage" eval="True" /> <field name="garden" eval="False" />
+    </record>
+
+</odoo>

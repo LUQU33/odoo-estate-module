@@ -5,6 +5,7 @@
     "summary": "SI LEYERAS ESTO SABRIAS QUE SOY PEDRO",
     "data": [
         "security/ir.model.access.csv",
+        "data/estate_property_data.xml",
         "views/estate_property_views.xml",
     ],
     "application": True,
