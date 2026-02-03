@@ -104,6 +104,26 @@ class EstateProperty(models.Model):
         for record in self:
             if record.state == "canceled":
                 raise UserError(_("Canceled properties cannot be sold."))
+            if record.state != "offer_accepted":
+                raise UserError(_("You need to accept an offer first."))
+
+            accepted_offer = record.offer_ids.filtered(
+                lambda offer: offer.status == "accepted"
+            )
+
+            if not accepted_offer:
+                raise UserError(_("No accepted offer found linked to this property."))
+
+            if (
+                float_compare(
+                    accepted_offer.price, record.selling_price, precision_digits=2
+                )
+                != 0
+            ):
+                raise UserError(
+                    _("The selling price does not match the accepted offer price.")
+                )
+
             record.state = "sold"
         return True
 
