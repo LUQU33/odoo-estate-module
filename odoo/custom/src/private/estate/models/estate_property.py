@@ -67,6 +67,11 @@ class EstateProperty(models.Model):
         string="Total Area (sqm)", compute="_compute_total_area"
     )
 
+    best_price = fields.Float(
+        string="Best Offer",
+        compute="_compute_best_price",
+    )
+
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
         for record in self:
@@ -99,6 +104,13 @@ class EstateProperty(models.Model):
                         "Reduce the expected price if you want to accept this offer."
                     )
                 )
+
+    @api.depends("offer_ids.price")
+    def _compute_best_price(self):
+        for record in self:
+            record.best_price = (
+                max(record.offer_ids.mapped("price")) if record.offer_ids else 0.0
+            )
 
     def action_sold(self):
         for record in self:
