@@ -72,6 +72,14 @@ class EstateProperty(models.Model):
         compute="_compute_best_price",
     )
 
+    @api.ondelete(at_uninstall=False)
+    def _unlink_if_new_or_cancelled(self):
+        for record in self:
+            if record.state not in ["new", "canceled"]:
+                raise UserError(
+                    _("You cannot delete a property that is not New or Cancelled!")
+                )
+
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
         for record in self:

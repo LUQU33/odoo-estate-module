@@ -27,12 +27,17 @@ class EstatePropertyOffer(models.Model):
 
     @api.model
     def create(self, vals):
-        offer = super().create(vals)
+        if vals.get("property_id"):
+            property_obj = self.env["estate.property"].browse(vals["property_id"])
 
-        if offer.property_id.state == "new":
-            offer.property_id.state = "offer_received"
+            if property_obj.offer_ids:
+                max_offer = max(property_obj.offer_ids.mapped("price"))
+                if vals.get("price") < max_offer:
+                    raise UserError(_("The offer must be higher than %2.f") % max_offer)
 
-        return offer
+            property_obj.state = "offer_received"
+
+        return super().create(vals)
 
     @api.depends("validity", "create_date")
     def _compute_date_deadline(self):
