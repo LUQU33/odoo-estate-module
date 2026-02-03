@@ -13,6 +13,22 @@
                 <field name="price" />
                 <field name="partner_id" />
                 <field name="status" invisible="1" />
+
+                <button
+                    name="action_accept"
+                    type="object"
+                    icon="fa-check"
+                    title="Accept"
+                    attrs="{'invisible': [('status', '!=', False)]}"
+                />
+
+                <button
+                    name="action_refuse"
+                    type="object"
+                    icon="fa-times"
+                    title="Refuse"
+                    attrs="{'invisible': [('status', '!=', False)]}"
+                />
             </tree>
         </field>
     </record>

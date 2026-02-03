@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class EstatePropertyOffer(models.Model):
@@ -13,3 +14,33 @@ class EstatePropertyOffer(models.Model):
 
     partner_id = fields.Many2one("res.partner", string="Partner", required=True)
     property_id = fields.Many2one("estate.property", required=True)
+
+    def action_accept(self):
+        for record in self:
+            if record.status == "refused":
+                raise UserError(_("Refused offers cannot be accepted"))
+
+            if record.property_id.state == "offer_accepted":
+                raise UserError(
+                    _("You cannot accept an offer for a property that is already sold")
+                )
+
+            (record.property_id.offer_ids - record).write({"status": "refused"})
+
+            record.status = "accepted"
+
+            record.property_id.write(
+                {
+                    "state": "offer_accepted",
+                    "selling_price": record.price,
+                    "buyer_id": record.partner_id.id,
+                }
+            )
+        return True
+
+    def action_refuse(self):
+        for record in self:
+            if record.status == "accepted":
+                raise UserError(_("Accepted offers cannot be refused"))
+            record.status = "refused"
+        return True
