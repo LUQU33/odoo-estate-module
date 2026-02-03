@@ -25,6 +25,15 @@ class EstatePropertyOffer(models.Model):
         inverse="_inverse_date_deadline",
     )
 
+    @api.model
+    def create(self, vals):
+        offer = super().create(vals)
+
+        if offer.property_id.state == "new":
+            offer.property_id.state = "offer_received"
+
+        return offer
+
     @api.depends("validity", "create_date")
     def _compute_date_deadline(self):
         for record in self:
